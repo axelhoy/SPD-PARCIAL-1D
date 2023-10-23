@@ -65,9 +65,7 @@ void setup()
 
 void loop()
 {
-    lcd_1.setCursor(0, 1);
-
-  Serial.println(sumar);
+  lcd_1.setCursor(0, 1);
   int pressed = keypressed();
   int deslizanteON = digitalRead(4);
   int prender = analogRead(FOTO);
@@ -273,4 +271,3 @@ int keypressed(void){
     }
   return 0;
 }
-
