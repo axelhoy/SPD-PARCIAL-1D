@@ -36,7 +36,9 @@ void printDigit(int digit)
 		ledsSegmento(0,1,1,0,0,0,0);
       	break;
     }
-  ...
+
+  (...)
+
     case 0:{
  		ledsSegmento(1,1,1,1,1,1,0);
       	break;
@@ -141,17 +143,9 @@ int keypressed(void){
   {
     flagsumar = sumar;
       return SUBIRLO;
-  }
-  if(restar != flagrestar)
-  {
-    flagrestar = restar;
-      return BAJARLO;
-  }
-   if(reset != flagreset)
-  {
-    flagreset = reset;
-      return RESET;
-    }
+
+(...)
+
   return 0;
 }
 ~~~
