@@ -194,7 +194,70 @@ int primoResta(int start) {
   }
 }
 ~~~
+### void loop()
+Se crean las variables, luego pregunta por el fotodiodo, y en caso de que este este recibiendo luz, prende el sistema.
+Si la temperatura es mayor a 90 (287), este imprime en el panel LCD "Temperatura alta!" y apaga el sistema,
+Si el sistema esta prendido, dependiendo de la posicion del deslizante, este suma y resta en numeros primos o numeros comunes
+~~~ C
 
+void loop()
+{
+  lcd_1.setCursor(0, 1);
+  int pressed = keypressed();
+  int deslizanteON = digitalRead(4);
+  int prender = analogRead(FOTO);
+  int temperatura = analogRead(TEMP);
+  int avisomotor = map(temperatura,0,570,0,255);
+    if(prender > 0){
+      analogWrite(MOTOR, avisomotor);
+      if(temperatura>287){
+         lcd_1.print("Temperatura Alta!");
+        apagarSistema();
+      }
+      else{
+        lcd_1.clear();
+    if (deslizanteON==0){
+    if(pressed==SUBIRLO){
+        countDigit++;
+        if(countDigit>99)
+          countDigit=0;
+      }
+      else if(pressed==BAJARLO){
+        countDigit--;
+        if(countDigit<0)
+          countDigit=99;
+      }
+      else if(pressed==RESET){
+        countDigit=0;
+      }
+      printCount(countDigit);
+    }
+    else{
+    if(pressed==SUBIRLO){
+        countPrimo = primoSuma(countPrimo);
+        if(countPrimo>97)
+          countPrimo=0;
+      }
+      else if(pressed==BAJARLO){
+        countPrimo = primoResta(countPrimo);
+        if(countPrimo>99)
+          countPrimo=97;
+      }
+      else if(pressed==RESET){
+        countPrimo=0;
+      }
+      printCount(countPrimo);
+      
+
+    }
+      }
+      }
+  else{
+  	apagarSistema();
+  }
+
+}
+~~~ 
 ## 🔑 Link 
 
  - [Proyecto](https://www.tinkercad.com/things/6LKiNuLmDkS-epic-amur/editel?sharecode=7QRuqWXmrb86XEjQE6VlKPgbxGZsvKg7zxhfgHjfEoI)
