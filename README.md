@@ -13,7 +13,7 @@
 ## Descripción
 Contador binario creado con arduino, implementando el uso de displays 7 segmentos, con un medidor de temperatura y un display LCD
 
-##:computer: Función principal
+## 💻 Función principal
 El contador suma del 0 al 99, o en numeros primos, dependiendo del deslizante.
 Este es prendido por un fotodiodo al recibir luz, y cuando su temperatura supera los 90°C, prende un motor (al cual se le podria agregar un sistema de refrigeracion o similar),
 y este avisa por un LCD que supera el limite de temperatura.Si supera el limite de temperatura el dispositivo se apaga inmediatamente
@@ -194,3 +194,8 @@ int primoResta(int start) {
   }
 }
 ~~~
+
+## 🔑 Link 
+
+ - [Proyecto]([https://www.google.com](https://www.tinkercad.com/things/6LKiNuLmDkS-epic-amur/editel?sharecode=7QRuqWXmrb86XEjQE6VlKPgbxGZsvKg7zxhfgHjfEoI)https://www.tinkercad.com/things/6LKiNuLmDkS-epic-amur/editel?sharecode=7QRuqWXmrb86XEjQE6VlKPgbxGZsvKg7zxhfgHjfEoI) -
+
