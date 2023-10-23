@@ -10,6 +10,10 @@
 
 ![arduino2](https://github.com/axelhoy/SPD-PARCIAL-1D/assets/121445908/712d3076-a4e3-488f-8f4d-ee691b9332b1)
 
+### Vista esquemática
+![esquema](https://github.com/axelhoy/SPD-PARCIAL-1D/assets/121445908/862a073d-973e-412f-b882-5ad831eaf94f)
+
+
 ## Descripción
 Contador binario creado con arduino, implementando el uso de displays 7 segmentos, con un medidor de temperatura y un display LCD
 
