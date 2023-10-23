@@ -197,5 +197,4 @@ int primoResta(int start) {
 
 ## 🔑 Link 
 
- - [Proyecto]([https://www.google.com](https://www.tinkercad.com/things/6LKiNuLmDkS-epic-amur/editel?sharecode=7QRuqWXmrb86XEjQE6VlKPgbxGZsvKg7zxhfgHjfEoI)https://www.tinkercad.com/things/6LKiNuLmDkS-epic-amur/editel?sharecode=7QRuqWXmrb86XEjQE6VlKPgbxGZsvKg7zxhfgHjfEoI) -
-
+ - [Proyecto](https://www.tinkercad.com/things/6LKiNuLmDkS-epic-amur/editel?sharecode=7QRuqWXmrb86XEjQE6VlKPgbxGZsvKg7zxhfgHjfEoI)
