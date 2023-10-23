@@ -109,7 +109,7 @@ void printCount(int count){
     prendeDigito(UNIDAD);
   }
 ~~~
-### printCount
+### keypressed
 Devuelve lo que recibe por parametro, si se presiona el boton para subir la flag pasa a valer 1, y pregunta
 Si se presiono (sumar = 0), entonces es diferente a la flag
 Si es diferente a la flag, la flag pasa a valer 0
@@ -152,15 +152,15 @@ int keypressed(void){
 }
 ~~~
 ### Numeros primos
-## esPrimo
+#### esPrimo
 recibe por parametro un numero, si la resta de la division del numero divido por 2 es 0, entonces devuelve false
 tambien se incluye el for, el cual verifica al numero 2, ya que si es 2 este se salta la iteracion y returna directamente true
 
-##primoSuma
+#### primoSuma
 Recibe start(En este caso es countPrimo, el cual esta incializado en 0), luego le suma 1, si ese numero es primo, lo retorna, si no es, lo va sumando hasta encontrar un numero primo
 0+1 = 1, no es primo, 1+1 = 2, es primo, lo retorna
 
-##primoResta
+#### primoResta
 Misma funcionalidad que el anterior, pero va restando hasta encontrar el siguiente numero primo a retornar
 ~~~ C
 bool esPrimo(int n) {
