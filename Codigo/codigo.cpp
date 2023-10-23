@@ -1,10 +1,7 @@
 // C++ code
 // 1D
 //Axel Cannavina
-//Franco Velazco
-//Dante Tucci
-//Alexis Portillo
-
+#include <Adafruit_LiquidCrystal.h>
 #define A 10
 #define B 11
 #define C 7
@@ -15,28 +12,33 @@
 #define SUBIRLO 3
 #define BAJARLO 2
 #define RESET 4
+#define RESET2 
 #define DECIMO A1
 #define UNIDAD A2
 #define OFF 0
-#define TIEMPO 10
-#define FUERZA 12
-#define MOTOR 13
-#define SENSOR A4
+#define TIEMPO 20
+#define MOTOR 12
+#define TEMP A3
+#define FOTO A0
+#include <Adafruit_LiquidCrystal.h>
 int lectura;
 int sensorPin = A0;
 int countDigit=0;
-int sumar =1;
-int flagsumar =1;
-int restar =1;
-int flagrestar = 1;
-int reset = 1;
-int flagreset = 1;
+int countPrimo=0;
+int sumar;
+int flagsumar;
+int restar;
+int flagrestar;
+int reset;
+int flagreset;
+Adafruit_LiquidCrystal lcd_1(0);
 
 void setup()
 {
+    lcd_1.begin(16, 2);
   pinMode(A4, INPUT);
-  pinMode(A0, INPUT);
-  pinMode(4, INPUT_PULLUP);
+  pinMode(FOTO, INPUT);
+  pinMode(4, INPUT);
   pinMode(3, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
   pinMode(5, OUTPUT);
@@ -46,24 +48,40 @@ void setup()
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
   pinMode(11, OUTPUT);
-  pinMode(12, OUTPUT);
   pinMode(13, OUTPUT);
   pinMode(DECIMO, OUTPUT);
   pinMode(UNIDAD, OUTPUT);
   digitalWrite(UNIDAD, 0);
   digitalWrite(DECIMO,0);
   pinMode(MOTOR, OUTPUT);
+  pinMode(A3, INPUT);
   printDigit(0);
   Serial.begin(9600);
+
 }
+
+
+
 
 void loop()
 {
-  lectura = analogRead(SENSOR);
-  Serial.println(lectura);
+    lcd_1.setCursor(0, 1);
+
+  Serial.println(sumar);
   int pressed = keypressed();
-  if(lectura== 634)
-  {
+  int deslizanteON = digitalRead(4);
+  int prender = analogRead(FOTO);
+  int temperatura = analogRead(TEMP);
+  int avisomotor = map(temperatura,0,570,0,255);
+    if(prender > 0){
+      analogWrite(MOTOR, avisomotor);
+      if(temperatura>287){
+         lcd_1.print("Temperatura Alta!");
+        apagarSistema();
+      }
+      else{
+        lcd_1.clear();
+    if (deslizanteON==0){
     if(pressed==SUBIRLO){
         countDigit++;
         if(countDigit>99)
@@ -78,105 +96,127 @@ void loop()
         countDigit=0;
       }
       printCount(countDigit);
-   if (5 % countDigit == 0) {
-    digitalWrite(MOTOR, HIGH);
-  } else {
-    digitalWrite(MOTOR, LOW);
+    }
+    else{
+    if(pressed==SUBIRLO){
+        countPrimo = primoSuma(countPrimo);
+        if(countPrimo>97)
+          countPrimo=0;
+      }
+      else if(pressed==BAJARLO){
+        countPrimo = primoResta(countPrimo);
+        if(countPrimo>99)
+          countPrimo=97;
+      }
+      else if(pressed==RESET){
+        countPrimo=0;
+      }
+      printCount(countPrimo);
+      
+
+    }
+      }
+      }
+  else{
+  	apagarSistema();
   }
+
+}
+
+void apagarSistema(){
+  	digitalWrite(DECIMO, HIGH);	
+    digitalWrite(UNIDAD, HIGH);
+}
+bool esPrimo(int n) {
+  if (n <= 1) {
+    return false;
+  }
+  for (int i = 2; i * i <= n; i++) {
+    if (n % i == 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+int primoSuma (int start) {
+  int num = start + 1;
+  while (true) {
+    if (esPrimo(num)) {
+      return num;
+    }
+    num++;
   }
 }
+int primoResta(int start) {
+  int num = start - 1;
+  while (true) {
+    if (esPrimo(num)) {
+      return num;
+    }
+    num--;
+  }
+}
+
 void printDigit(int digit)
 {
-  digitalWrite(A, LOW);
-  digitalWrite(B, LOW);
-  digitalWrite(C, LOW);
-  digitalWrite(D, LOW);
-  digitalWrite(E, LOW);
-  digitalWrite(F, LOW);
-  digitalWrite(G, LOW);
   switch (digit){
     case 1:{
-    	digitalWrite(B, HIGH);
-      	digitalWrite(C, HIGH);
+		ledsSegmento(0,1,1,0,0,0,0);
       	break;
     }
     case 2:{
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      digitalWrite(G, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(A, HIGH);
-      break;
+		ledsSegmento(1,1,0,1,1,0,1);
+      	break;
     }
     case 3:{
-      digitalWrite(D, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(G, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(A, HIGH);
-      break;
+		ledsSegmento(1,1,1,1,0,0,1);
+      	break;
     }
     case 4:{
-      digitalWrite(F, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(G, HIGH);
-      digitalWrite(B, HIGH);
-      break;
+		ledsSegmento(0,1,1,0,0,1,1);
+      	break;
     }
     case 5:{
-      digitalWrite(A, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      break;
+		ledsSegmento(1,0,1,1,0,1,1);
+      	break;
     }
     case 6:{
-      digitalWrite(A, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      break;
+ 		ledsSegmento(1,0,1,1,1,1,1);
+      	break;
     }
     case 7:{
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      break;
+		ledsSegmento(1,1,1,0,0,0,0);
+      	break;
     }
     case 8:{
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
+		ledsSegmento(1,1,1,1,1,1,1);
+      	break;
     }
     case 9:{
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
+		ledsSegmento(1,1,1,1,0,1,1);
+      	break;
     }
     case 0:{
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      digitalWrite(F, HIGH);
-      break;
+ 		ledsSegmento(1,1,1,1,1,1,0);
+      	break;
     }
     
   }
 }
+
+void ledsSegmento(int a, int b, int c, int d, int e, int f, int g)
+{
+  digitalWrite(A, a);
+  digitalWrite(B, b);
+  digitalWrite(C, c);
+  digitalWrite(D, d);
+  digitalWrite(E, e);
+  digitalWrite(F, f);
+  digitalWrite(G, g);
+	
+}
+    
 void prendeDigito(int digito){
     if (digito == UNIDAD){
       digitalWrite(UNIDAD, LOW);
@@ -216,20 +256,21 @@ int keypressed(void){
   	if(reset)
       flagreset = 1;
  	
-  if(sumar != flagsumar && sumar==0)
+  if(sumar != flagsumar)
   {
     flagsumar = sumar;
       return SUBIRLO;
   }
-  if(restar != flagrestar && restar==0)
+  if(restar != flagrestar)
   {
     flagrestar = restar;
       return BAJARLO;
   }
-    if(reset != flagreset && reset==0)
+   if(reset != flagreset)
   {
     flagreset = reset;
       return RESET;
     }
   return 0;
 }
+
